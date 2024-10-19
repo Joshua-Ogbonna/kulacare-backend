@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     participant User
     participant WebApp
@@ -28,3 +29,4 @@ sequenceDiagram
         Backend-->>WhatsApp: Send response
         WhatsApp-->>User: Display response
     end
+```
