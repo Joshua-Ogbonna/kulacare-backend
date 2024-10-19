@@ -12,7 +12,7 @@ interface IUSer extends Document {
   code: string;
   isActivated: boolean;
   healthCategory: string;
-  goals: Array<string>;
+  // goals: Array<string>;
 }
 
 interface IMessage {

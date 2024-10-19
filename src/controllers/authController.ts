@@ -5,9 +5,9 @@ import { generateUniqueCode } from "../utils/helpers";
 
 export const createUser = async (req: Request, res: Response) => {
   try {
-    const { name, phoneNumber, healthInfo, healthCategory, goals } = req.body as Pick<
+    const { name, phoneNumber, healthInfo, healthCategory } = req.body as Pick<
       IUSer,
-      "name" | "phoneNumber" | "healthInfo" | "healthCategory" | "goals"
+      "name" | "phoneNumber" | "healthInfo" | "healthCategory"
     >;
 
     const existingUser = await User.findOne({ phoneNumber });
@@ -24,7 +24,6 @@ export const createUser = async (req: Request, res: Response) => {
       phoneNumber,
       healthInfo,
       healthCategory,
-      goals
     });
 
     await newUser.save();
@@ -58,5 +57,65 @@ export const generateCode = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Error generating code:", error);
     res.status(500).json({ message: "Error generating code" });
+  }
+};
+
+export const signin = async (req: Request, res: Response) => {
+  try {
+    const { phoneNumber } = req.body as { phoneNumber: string };
+
+    const user = await User.findOne({ phoneNumber });
+
+    if (!user) {
+      res.status(404).json({ message: "User not found", success: false });
+      return;
+    }
+
+    res.status(200).json({
+      message: "Signin successful",
+      success: true,
+      user: {
+        id: user._id,
+        name: user.name,
+        phoneNumber: user.phoneNumber,
+        healthCategory: user.healthCategory,
+      },
+    });
+  } catch (error) {
+    console.error("Error signing in:", error);
+    res.status(500).json({ message: "Error signing in", success: false });
+  }
+};
+
+export const getUserByPhone = async (req: Request, res: Response) => {
+  try {
+    const { phoneNumber } = req.params;
+
+    const user = await User.findOne({ phoneNumber });
+
+    if (!user) {
+      res.status(404).json({ message: "User not found", success: false });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      user: {
+        id: user._id,
+        name: user.name,
+        phoneNumber: user.phoneNumber,
+        healthInfo: user.healthInfo,
+        healthCategory: user.healthCategory,
+        isActivated: user.isActivated,
+        code: user.code
+      }
+    });
+    
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ 
+      message: "Error fetching user details", 
+      success: false 
+    });
   }
 };

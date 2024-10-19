@@ -20,7 +20,7 @@ const userSchema: Schema = new mongoose.Schema({
   code: { type: String, unique: true },
   isActivated: { type: Boolean, default: false },
   healthCategory: { type: String, required: true },
-  goals: { type: Array<String>, required: true },
+  // goals: { type: Array<String>, required: true },
 });
 
 export const User = mongoose.model<IUSer>("User", userSchema);
