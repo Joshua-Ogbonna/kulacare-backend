@@ -19,11 +19,14 @@ export const createUser = async (req: Request, res: Response) => {
       return;
     }
 
+    const code = generateUniqueCode();
+
     const newUser = new User({
       name,
       phoneNumber,
       healthInfo,
       healthCategory,
+      code
     });
 
     await newUser.save();

@@ -97,7 +97,7 @@ const processMessage = async (req, res) => {
         fetch("https://api.aimlapi.com/chat/completions", {
             method: "POST",
             headers: {
-                Authorization: "Bearer a38f71fe48a84b88801e5d6a9aa65874",
+                Authorization: `Bearer ${process.env.API_KEY}`,
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({

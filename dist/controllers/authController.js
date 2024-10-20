@@ -13,11 +13,13 @@ const createUser = async (req, res) => {
                 .json({ message: "User with this phone number already exists" });
             return;
         }
+        const code = (0, helpers_1.generateUniqueCode)();
         const newUser = new User_1.User({
             name,
             phoneNumber,
             healthInfo,
             healthCategory,
+            code
         });
         await newUser.save();
         res
